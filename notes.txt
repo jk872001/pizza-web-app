@@ -1,0 +1,6 @@
+git config --global user.email "jitesh@gmail.com"
+git config --global user.name "jk872001"
+npm i -D typescript
+npx tsc --init
+npx tsc
+npm i @types/node
