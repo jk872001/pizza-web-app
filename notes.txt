@@ -11,3 +11,9 @@ npx prettier . --write
 npm install --save-dev @typescript-eslint/parser @typescript-eslint/eslint-plugin eslint typescript
 npx eslint .
 npm install --save-dev eslint-config-prettier
+
+npm i dotenv
+npm i express
+npm i -D @types/express
+ npm i nodemon
+ npm i -D ts-node
