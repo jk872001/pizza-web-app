@@ -4,3 +4,7 @@ npm i -D typescript
 npx tsc --init
 npx tsc
 npm i @types/node
+npm install --save-dev --save-exact prettier
+node --eval "fs.writeFileSync('.prettierrc','{}\n')"
+npx prettier . --check
+npx prettier . --write
