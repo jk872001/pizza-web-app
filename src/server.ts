@@ -1,5 +1,3 @@
-function login(username: string): boolean {
-  return true;
-}
+import { Config } from "./config";
 
-console.log(login("Jitesh"));
+console.log(Config.PORT)
