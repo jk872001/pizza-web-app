@@ -18,4 +18,6 @@ npm i -D @types/express
 npm i nodemon
 npm i -D ts-node
 npm i winston
-npm i @types/winston
+npm i -D @types/winston
+npm i http-errors
+npm i -D @types/http-errors
