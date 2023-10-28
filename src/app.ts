@@ -1,9 +1,8 @@
 import express, { NextFunction,Request, Response} from "express";
-import createHttpError, { HttpError } from "http-errors";
+import  { HttpError } from "http-errors";
 import logger from "./config/logger";
-
+import authRouter from "./routes/auth"
 const app=express()
-
 
 // for checking error handling
 // app.get("/",(req,res)=>
@@ -17,7 +16,10 @@ app.get('/',(req,res)=>
     res.send("Welcome in Auth Service")
 })
 
+app.use("/auth",authRouter)
+
 // global error handling middleware
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((err:HttpError,req:Request,res:Response,next:NextFunction)=>
 {
     logger.error(err.message)
@@ -34,3 +36,6 @@ app.use((err:HttpError,req:Request,res:Response,next:NextFunction)=>
     })
 })
 export default app;
+
+
+
