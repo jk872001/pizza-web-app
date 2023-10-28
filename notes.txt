@@ -29,7 +29,8 @@ npm i -D supertest @types/supertest
 npm install typeorm --save
 npm install reflect-metadata --save
 npm install pg --save
-
+npx typeorm init --database postgres
+npm i cross-env
 
 
 
