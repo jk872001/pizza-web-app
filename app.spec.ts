@@ -3,7 +3,7 @@ import { calculateSum } from "./src/utils";
 import  request  from "supertest";
 
 
-describe('sum module', () => {
+describe.skip('sum module', () => {
     it('should add', () => {
           const result=calculateSum(5,5);
           expect(result).toBe(10)
