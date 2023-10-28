@@ -21,3 +21,8 @@ npm i winston
 npm i -D @types/winston
 npm i http-errors
 npm i -D @types/http-errors
+npm install --save-dev jest
+npm install --save-dev @types/jest
+npm install --save-dev ts-jest
+npx ts-jest config:init
+npm i -D supertest @types/supertest

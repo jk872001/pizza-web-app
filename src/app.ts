@@ -12,6 +12,11 @@ const app=express()
 //      throw newErr
 // })
 
+app.get('/',(req,res)=>
+{
+    res.send("Welcome in Auth Service")
+})
+
 // global error handling middleware
 app.use((err:HttpError,req:Request,res:Response,next:NextFunction)=>
 {
