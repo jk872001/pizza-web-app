@@ -26,7 +26,21 @@ npm install --save-dev @types/jest
 npm install --save-dev ts-jest
 npx ts-jest config:init
 npm i -D supertest @types/supertest
+npm install typeorm --save
+npm install reflect-metadata --save
+npm install pg --save
 
+
+
+
+
+
+
+
+
+
+
+docker ps
 
 
 docker run --rm -it -v C:\jitesh\github\pizza-web-app:/usr/src/app -v /usr/src/app/node_modules --env-file C:\jitesh\github\pizza-web-app\.env -p 4444:4444 -e NODE_ENV=development pizza-web-app-auth-service:dev
