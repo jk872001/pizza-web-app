@@ -5,6 +5,9 @@ import logger from "./config/logger";
 import authRouter from "./routes/auth"
 const app=express()
 
+// to accept the json data we have to use this middleware
+app.use(express.json())
+
 // for checking error handling
 // app.get("/",(req,res)=>
 // {
