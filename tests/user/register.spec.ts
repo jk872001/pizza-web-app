@@ -84,6 +84,8 @@ describe("POST /auth/register", () => {
           expect(users[0].email).toBe(userData.email)
 
       });
+
+      it.todo("should return id ")
    });
    describe("Given all fields", () => {});
 });
