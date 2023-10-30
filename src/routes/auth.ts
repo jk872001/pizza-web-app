@@ -1,16 +1,20 @@
-import express from "express"
+import { UserService } from "./../services/UserService";
+import express from "express";
 import { AuthController } from "../controller/AuthController";
+import { AppDataSource } from "../config/data-source";
+import { User } from "../entity/User";
 
-const router=express.Router();
+const router = express.Router();
 
-const authController= new AuthController()
+// database
+const userRepository = AppDataSource.getRepository(User);
 
+// vanilla logic
+const userService = new UserService(userRepository);
 
-router.post('/register',(req,res)=> authController.register(req,res))
+// framework logic
+const authController = new AuthController(userService);
 
-
-
-
-
+router.post("/register", (req, res) => authController.register(req, res));
 
 export default router;
