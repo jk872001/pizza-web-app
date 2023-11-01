@@ -1,7 +1,8 @@
 import { NextFunction, Response } from "express";
-import { RegisterUserRequest } from "../types";
-import { UserService } from "../services/UserService";
+import { validationResult } from "express-validator";
 import { Logger } from "winston";
+import { UserService } from "../services/UserService";
+import { RegisterUserRequest } from "../types";
 
 export class AuthController {
    userService: UserService;
@@ -11,10 +12,16 @@ export class AuthController {
       this.logger = logger;
    }
    async register(req: RegisterUserRequest, res: Response, next: NextFunction) {
+
+      const result = validationResult(req);
+      if (!result.isEmpty()) {
+         return res.status(400).send({ errors: result.array() });
+      }
+
       const { firstName, lastName, email, password } = req.body;
 
       try {
-        await this.userService.create({
+         await this.userService.create({
             firstName,
             lastName,
             email,

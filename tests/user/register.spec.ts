@@ -137,5 +137,26 @@ describe("POST /auth/register", () => {
 
       it.todo("should return id ");
    });
-   describe("Given all fields", () => {});
+   describe("All fields are not given", () => {
+      // if problem is from client side , info is not coming from client the we should return 400 status
+
+      it("should return 400 status code", async () => {
+         // Arrange
+         const userData = {
+            firstName: "Jitesh",
+            lastName: "Kumar",
+            email: "",
+            password: "123432",
+         };
+         // Act
+         const response = await request(app)
+            .post("/auth/register")
+            .send(userData);
+         // Assert
+         const userRepository = connection.getRepository(User);
+         const user = await userRepository.find({});
+         expect(response.statusCode).toBe(400);
+         expect(user).toHaveLength(0);
+      });
+   });
 });
