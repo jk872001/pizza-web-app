@@ -4,6 +4,7 @@ import request from "supertest";
 import { AppDataSource } from "../../src/config/data-source";
 import { User } from "../../src/entity/User";
 import { Roles } from "../../src/constants";
+import { isJwt } from "../utils";
 // import { truncateTable } from "../utils";
 
 describe("POST /auth/register", () => {
@@ -133,6 +134,49 @@ describe("POST /auth/register", () => {
          const users = await userRepository.find();
          expect(response.statusCode).toBe(400);
          expect(users).toHaveLength(1);
+      });
+
+      
+      it("should return accessToken and refreshToken in cookies", async () => {
+         // Arrange
+         const userData = {
+            firstName: "Jitesh",
+            lastName: "Kumar",
+            email: "jiteshkumar@gmail.com",
+            password: "123432",
+         };
+         
+         // Act
+         const response = await request(app)
+            .post("/auth/register")
+            .send(userData);
+         // Assert
+        let accessToken=null;
+        let refreshToken=null;
+
+        interface Headers{
+         ["set-cookie"] : string[]
+        }
+        const cookies=(response.headers as Headers)["set-cookie"] || [];
+
+        cookies.forEach((cookie) => {
+             if(cookie.startsWith("accessToken"))
+             {
+                accessToken=cookie.split(",")[0].split("=")[1]
+             } 
+             if(cookie.startsWith("refreshToken"))
+             {
+                refreshToken=cookie.split(",")[0].split("=")[1]
+             } 
+        });
+
+        expect(accessToken).not.toBeNull()
+        expect(refreshToken).not.toBeNull()
+
+      //   validating the access token
+        expect(isJwt(accessToken)).toBeTruthy();
+        expect(isJwt(refreshToken)).toBeTruthy();
+
       });
 
       it.todo("should return id ");

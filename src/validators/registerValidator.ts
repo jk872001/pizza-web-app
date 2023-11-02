@@ -7,6 +7,7 @@ export default checkSchema({
       isEmail:{
          errorMessage: 'Must be a valid e-mail address',
        },
+       trim:true
 
    },
    firstName: {
