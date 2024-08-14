@@ -34,6 +34,9 @@ npm i cross-env
 npm i express-validator
 
 
+npm run migration:generate -- src/migration/rename_user_table -d .\src\config\data-source.ts
+npm run migration:run -- -d .\src\config\data-source.ts
+
 
 
 
@@ -45,4 +48,4 @@ npm i express-validator
 docker ps
 
 
-docker run --rm -it -v C:\jitesh\github\pizza-web-app:/usr/src/app -v /usr/src/app/node_modules --env-file C:\jitesh\github\pizza-web-app\.env -p 4444:4444 -e NODE_ENV=development pizza-web-app-auth-service:dev
+docker run --rm -it -v C:\jitesh\github\pizza-web-app:/usr/src/app -v /usr/src/app/node_modules --env-file C:\jitesh\github\pizza-web-app\.env.dev -p 4444:4444 -e NODE_ENV=development auth-service-new:dev

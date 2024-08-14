@@ -21,7 +21,7 @@ export class UserService {
       const hashedPassword = await bcrypt.hash(password, saltRounds);
 
       try {
-         await this.userRepository.save({
+         return await this.userRepository.save({
             firstName,
             lastName,
             email,
@@ -33,6 +33,22 @@ export class UserService {
          throw error;
       }
    }
+   async findByEmail(email: string) {
+      return await this.userRepository.findOne({
+         where: { email },
+      });
+   }
+
+   async findById(id: number) {
+      return await this.userRepository.findOne({
+          where: {
+              id,
+          },
+         //  relations: {
+         //      tenant: true,
+         //  },
+      });
+  }
 }
 
 // 500 is the database error

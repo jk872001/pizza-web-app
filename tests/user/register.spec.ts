@@ -5,6 +5,7 @@ import { AppDataSource } from "../../src/config/data-source";
 import { User } from "../../src/entity/User";
 import { Roles } from "../../src/constants";
 import { isJwt } from "../utils";
+import { RefreshToken } from "../../src/entity/RefreshToken";
 // import { truncateTable } from "../utils";
 
 describe("POST /auth/register", () => {
@@ -115,6 +116,7 @@ describe("POST /auth/register", () => {
          expect(users[0].password).toHaveLength(60);
          //   one more expect is need to write
       });
+
       it("should return 400 status code if email is already present", async () => {
          // Arrange
          const userData = {
@@ -137,50 +139,77 @@ describe("POST /auth/register", () => {
       });
 
       
-      it("should return accessToken and refreshToken in cookies", async () => {
+      it("should return the access token and refresh token inside a cookie", async () => {
          // Arrange
          const userData = {
-            firstName: "Jitesh",
-            lastName: "Kumar",
-            email: "jiteshkumar@gmail.com",
-            password: "123432",
+             firstName: "Rakesh",
+             lastName: "K",
+             email: "rakesh@mern.space",
+             password: "password",
          };
-         
+
          // Act
          const response = await request(app)
-            .post("/auth/register")
-            .send(userData);
+             .post("/auth/register")
+             .send(userData);
+            
+         interface Headers {
+             ["set-cookie"]: string[];
+         }
          // Assert
-        let accessToken=null;
-        let refreshToken=null;
+         let accessToken = null;
+         let refreshToken = null;
+         const cookies = (response.headers as Headers)["set-cookie"] || [];
+         
+         cookies.forEach((cookie) => {
+             if (cookie.startsWith("accessToken=")) {
+                 accessToken = cookie.split(";")[0].split("=")[1];
+             }
 
-        interface Headers{
-         ["set-cookie"] : string[]
-        }
-        const cookies=(response.headers as Headers)["set-cookie"] || [];
+             if (cookie.startsWith("refreshToken=")) {
+                 refreshToken = cookie.split(";")[0].split("=")[1];
+             }
+         });
+         expect(accessToken).not.toBeNull();
+         expect(refreshToken).not.toBeNull();
 
-        cookies.forEach((cookie) => {
-             if(cookie.startsWith("accessToken"))
-             {
-                accessToken=cookie.split(",")[0].split("=")[1]
-             } 
-             if(cookie.startsWith("refreshToken"))
-             {
-                refreshToken=cookie.split(",")[0].split("=")[1]
-             } 
-        });
+         expect(isJwt(accessToken)).toBeTruthy();
+         expect(isJwt(refreshToken)).toBeTruthy();
+     });
+   //   it("should store the refresh token in the database", async () => {
+   //       // Arrange
+   //       const userData = {
+   //           firstName: "Rakesh",
+   //           lastName: "K",
+   //           email: "rakesh@mern.space",
+   //           password: "password",
+   //       };
 
-        expect(accessToken).not.toBeNull()
-        expect(refreshToken).not.toBeNull()
+   //       // Act
+   //       const response = await request(app)
+   //           .post("/auth/register")
+   //           .send(userData);
+        
+   //       // Assert
+   //       const refreshTokenRepo = connection.getRepository(RefreshToken);
+   //       // const refreshTokens = await refreshTokenRepo.find();
 
-      //   validating the access token
-        expect(isJwt(accessToken)).toBeTruthy();
-        expect(isJwt(refreshToken)).toBeTruthy();
+   //       const tokens = await refreshTokenRepo
+   //           .createQueryBuilder("refreshToken")
+   //           .where("refreshToken.userId = :userId", {
+   //               userId: (response.body as Record<string, string>).id,
+   //           })
+   //           .getMany();
 
-      });
+   //       expect(tokens).toHaveLength(1);
+   //   });
 
-      it.todo("should return id ");
+      it.todo("should return userid ");
+      it.todo("should sanitised all the fields ");
+      it.todo("should return 400 status code in email is not valid email");
+      it.todo("should return 400 status code if password length id not equal to 8");
    });
+
    describe("All fields are not given", () => {
       // if problem is from client side , info is not coming from client the we should return 400 status
 

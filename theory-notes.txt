@@ -1,0 +1,3 @@
+Microservice = small independent service that collectively form a larger application
+
+Microservice technique --> Domain driven --> self bound
